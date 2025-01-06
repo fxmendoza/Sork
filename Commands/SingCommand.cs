@@ -1,6 +1,6 @@
 namespace Sork.Commands;
 
-public class SingCommand : ICommand
+public class SingCommand : BaseCommand
 {
     private readonly UserInputOutput io;
 
@@ -9,9 +9,9 @@ public class SingCommand : ICommand
         this.io = io;
     }
 
-   public bool Handles(string userInput) => userInput == "sing";
+    public override bool Handles(string userInput) => GetCommandFromInput(userInput) == "sing";
 
-    public CommandResult Execute() 
+    public override CommandResult Execute() 
     {
         Console.WriteLine("You are a singing fool!");
         return new CommandResult {RequestExit = false, IsHandled = true};
