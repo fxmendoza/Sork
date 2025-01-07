@@ -1,4 +1,5 @@
 namespace Sork.Commands;
+using Sork.World;
 
 public class DanceCommand : BaseCommand
 {
@@ -9,11 +10,25 @@ public class DanceCommand : BaseCommand
         this.io = io;
     }
 
-    public override bool Handles(string userInput) => GetCommandFromInput(userInput) == "dance";
+    public override bool Handles(string userInput) {
+        var paramsLength = GetParametersFromInput(userInput).Length;
+        return GetCommandFromInput(userInput) == "dance" && paramsLength ==0 || paramsLength == 1;
+    }
 
-    public override CommandResult Execute()
+    public override CommandResult Execute(string userInput, GameState gameState)
     {
-        Console.WriteLine("You are a dancing machine!");
+        var parameters = GetParametersFromInput(userInput);
+        if (parameters.Length == 0) {
+            io.WriteNoun("You");
+            io.WriteMessageLine(" are a dancing machine!");
+        } 
+        else {
+            io.WriteNoun("You");
+            io.WriteMessage(" are a dancing machine with ");
+            io.WriteNoun(parameters[0]);
+            io.WriteMessageLine("!");
+        }
+
         return new CommandResult {RequestExit = false, IsHandled = true};
     }
 }

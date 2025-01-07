@@ -1,4 +1,5 @@
 ﻿using Sork.Commands;
+using Sork.World;
 
 namespace Sork;
 
@@ -7,12 +8,16 @@ public class Program
     public static void Main(string[] args)
     {
         UserInputOutput io = new UserInputOutput();
+
+        var gameState = GameState.Create(io);
+
         ICommand lol = new LaughCommand(io);
         ICommand dance = new DanceCommand(io);
         ICommand sing = new SingCommand(io);
         ICommand whistle = new WhistleCommand(io);
         ICommand exit = new ExitCommand(io);
-        List<ICommand> commands = new List<ICommand> {lol, dance, sing, whistle, exit};
+        ICommand move = new MoveCommand(io);
+        List<ICommand> commands = new List<ICommand> {lol, dance, sing, whistle, exit, move};
 
         do
         {
@@ -26,7 +31,7 @@ public class Program
                 if (command.Handles(input)) 
                 { 
                     handled = true;
-                    result = command.Execute();
+                    result = command.Execute(input, gameState);
                     if (result.RequestExit) { break; }
                 }
             }

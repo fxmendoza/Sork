@@ -1,4 +1,5 @@
 namespace Sork.Commands;
+using Sork.World;
 
 public class WhistleCommand : BaseCommand
 {
@@ -11,7 +12,7 @@ public class WhistleCommand : BaseCommand
 
     public override bool Handles(string userInput) => GetCommandFromInput(userInput) == "whistle";
 
-    public override CommandResult Execute() 
+    public override CommandResult Execute(string userInput, GameState gameState) 
         {
             Console.WriteLine("You whistle while you work!");
             return new CommandResult {RequestExit = false, IsHandled = true};
